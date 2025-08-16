@@ -32,7 +32,11 @@ package skill
 
 var Desc = map[ID]Description{
 {{- range $key, $value := . }}
-    {{ $key }}: {Page: {{ $value.SkillPage }}, Row: {{ $value.SkillRow }}, Column: {{ $value.SkillColumn }}, ListRow: {{ $value.ListRow }}, IconCel: {{ $value.IconCel }}},
+    {{- if and (contains (index $value "str name") "kill") (extractInt (index $value "str name")) }}
+    {{- if ne (index $value "skilldesc") "townportal" }}
+    {{ extractInt (index $value "str name") }}: {Page: {{ $value.SkillPage }}, Row: {{ $value.SkillRow }}, Column: {{ $value.SkillColumn }}, ListRow: {{ $value.ListRow }}, IconCel: {{ $value.IconCel }}},
+    {{- end }}
+    {{- end }}
 {{- end }}
 }`
 
@@ -67,7 +71,7 @@ package object
 
 var Desc = map[int]Description{
 {{- range $key, $value := . }}
-	{{ index $value "*ID" }}: {Name: "{{ $value.Name }}", ID: {{ index $value "*ID" }}, SizeX: {{ $value.SizeX }}, SizeY: {{ $value.SizeY }}, Left: {{ $value.Left }}, Top: {{ $value.Top }}, Width: {{ $value.Width }}, Height: {{ $value.Height }}, Yoffset: {{ $value.Yoffset }}, Xoffset: {{ $value.Xoffset }}, HasCollision: {{ if eq $value.HasCollision0 "1" }}true{{ else }}false{{ end }}},
+    {{ index $value "*ID" }}: {Name: "{{ $value.Name }}", ID: {{ index $value "*ID" }}, SizeX: {{ $value.SizeX }}, SizeY: {{ $value.SizeY }}, Left: {{ $value.Left }}, Top: {{ $value.Top }}, Width: {{ $value.Width }}, Height: {{ $value.Height }}, Yoffset: {{ $value.Yoffset }}, Xoffset: {{ $value.Xoffset }}, HasCollision: {{ if eq $value.HasCollision0 "1" }}true{{ else }}false{{ end }}},
 {{- end }}
 }`
 
